@@ -37,9 +37,8 @@ scene.add(lightHelper);
 // Add OrbitControl to look around
 const controls = new OrbitControls(camera, renderer.domElement);
 
-// Infinite loop
 function animate() {
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animate); // Infinite loop
   
   torusKnot.rotateX(0.005);
   torusKnot.rotateY(0.003);
@@ -51,3 +50,19 @@ function animate() {
 }
 
 animate();
+
+let stars = [];
+
+function addStar() {
+  const geometry = new THREE.SphereGeometry(0.25, 20, 20);
+  let randomColor = Math.floor(Math.random() * 16_777_215);
+  const material = new THREE.MeshStandardMaterial({color: randomColor})
+  const star = new THREE.Mesh(geometry, material);
+
+  const [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
+  star.position.set(x,y,z);
+  scene.add(star);
+  stars.push(star);
+}
+
+Array(100).fill().forEach(addStar);
