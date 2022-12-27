@@ -20,11 +20,11 @@ camera.position.setZ(30);
 renderer.render(scene, camera);
 
 // Set scene background
-const spaceTexture = new THREE.TextureLoader().load('space.png');
+const spaceTexture = new THREE.TextureLoader().load('assets/space.png');
 scene.background = spaceTexture;
 
 // Create a moon
-const moonTexture = new THREE.TextureLoader().load('moon.png');
+const moonTexture = new THREE.TextureLoader().load('assets/moon.png');
 const moon = new THREE.Mesh(
   new THREE.SphereGeometry(3,32,32),
   new THREE.MeshStandardMaterial({
