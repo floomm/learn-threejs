@@ -37,6 +37,7 @@ scene.add(lightHelper);
 // Add OrbitControl to look around
 const controls = new OrbitControls(camera, renderer.domElement);
 
+// Animate the torusKnot
 function animate() {
   requestAnimationFrame(animate); // Infinite loop
   
@@ -51,18 +52,20 @@ function animate() {
 
 animate();
 
+// Create a number of disco lights
 let amountDiscoLights = 100;
-let discoLights = [...Array(amountDiscoLights)].map(createStar);
+let discoLights = [...Array(amountDiscoLights)].map(createDiscoLight);
 
+// Update position and color of each disco light (obviously, changing the position would suffice) 
 while (true) {
   discoLights.forEach((discoLight) => {
-    changeStarColor(discoLight);
-    changeStarPosition(discoLight);
+    changeDiscoLightPosition(discoLight);
+    changeDiscoLightColor(discoLight); // For demo purposes only.
   });
   await new Promise((resolve) => setTimeout(resolve, 1000));
 }
 
-function createStar() {
+function createDiscoLight() {
   const geometry = new THREE.SphereGeometry(0.25, 20, 20);
   const material = new THREE.MeshStandardMaterial();
   const discoLight = new THREE.Mesh(geometry, material);
@@ -70,12 +73,12 @@ function createStar() {
   return discoLight;
 }
 
-function changeStarPosition(discoLight, spread=100) {
+function changeDiscoLightPosition(discoLight, spread=100) {
   const [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(spread));
   discoLight.position.set(x,y,z);
 }
 
-function changeStarColor(discoLight) {
+function changeDiscoLightColor(discoLight) {
   discoLight.material.color.set(getRandomColorHex());
 }
 
