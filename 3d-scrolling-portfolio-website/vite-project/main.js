@@ -19,16 +19,33 @@ camera.position.setZ(30);
 
 renderer.render(scene, camera);
 
+// Set scene background
+const spaceTexture = new THREE.TextureLoader().load('space.png');
+scene.background = spaceTexture;
+
+// Create a moon
+const moonTexture = new THREE.TextureLoader().load('moon.png');
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(3,32,32),
+  new THREE.MeshStandardMaterial({
+    map: moonTexture
+  })
+);
+scene.add(moon);
+
 // Add a Geometry
 const geometry = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
 const material = new THREE.MeshStandardMaterial( { color: 0x63adf2 } );
 const torusKnot = new THREE.Mesh(geometry, material);
-scene.add(torusKnot);
+//scene.add(torusKnot);
 
-// Add a Light
+// Add lights
 const pointLight = new THREE.PointLight(0xffffff);
 pointLight.position.set(0,0,0);
-scene.add(pointLight);
+
+const ambientLight = new THREE.AmbientLight(0xffffff);
+
+scene.add(pointLight, ambientLight);
 
 // Add a LightHelper to see the light's position
 const lightHelper = new THREE.PointLightHelper(pointLight);
