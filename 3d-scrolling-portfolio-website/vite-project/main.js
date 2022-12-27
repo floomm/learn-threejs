@@ -51,18 +51,34 @@ function animate() {
 
 animate();
 
-let stars = [];
+let amountDiscoLights = 100;
+let discoLights = [...Array(amountDiscoLights)].map(createStar);
 
-function addStar() {
-  const geometry = new THREE.SphereGeometry(0.25, 20, 20);
-  let randomColor = Math.floor(Math.random() * 16_777_215);
-  const material = new THREE.MeshStandardMaterial({color: randomColor})
-  const star = new THREE.Mesh(geometry, material);
-
-  const [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
-  star.position.set(x,y,z);
-  scene.add(star);
-  stars.push(star);
+while (true) {
+  discoLights.forEach((discoLight) => {
+    changeStarColor(discoLight);
+    changeStarPosition(discoLight);
+  });
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 }
 
-Array(100).fill().forEach(addStar);
+function createStar() {
+  const geometry = new THREE.SphereGeometry(0.25, 20, 20);
+  const material = new THREE.MeshStandardMaterial();
+  const discoLight = new THREE.Mesh(geometry, material);
+  scene.add(discoLight);
+  return discoLight;
+}
+
+function changeStarPosition(discoLight, spread=100) {
+  const [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(spread));
+  discoLight.position.set(x,y,z);
+}
+
+function changeStarColor(discoLight) {
+  discoLight.material.color.set(getRandomColorHex());
+}
+
+function getRandomColorHex() {
+  return Math.floor(Math.random() * 16_777_215);
+}
